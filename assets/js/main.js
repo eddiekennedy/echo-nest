@@ -17,57 +17,96 @@ Please provide a link to the web app that we can evaluate
 
 */
 
-// Application object
-var apiKey = 'KWJSW0SIMG606Y0IN';
-var app = {
-	terms: {},
-	termsEndpoint: 'http://developer.echonest.com/api/v4/artist/top_terms?api_key=' + apiKey + '&results=100',
-	getTerms: function() {
-		$.ajax({
-			url: app.termsEndpoint,
-			dataType: 'json',
-			success: function( data ) {
-				app.terms = data.response.terms;
-				var termList = $('<ul class="terms-list" />');
-				$.each( app.terms, function( i, term ) {
-					var termItem = '<li><input type="checkbox" value="' + term.name + '" /> <a href="' + term.name + '">' + term.name + '</a></li>';
-					termList.append( termItem );
-				});
-				$('#terms').append( termList );
-			}
-		});
-	},
-	artists: {},
-	artistsEndpoint: function( term ) {
-		return 'http://developer.echonest.com/api/v4/artist/search?api_key=' + apiKey + '&style=' + term + '&results=20';
-	},
-	getArtistsByTerm: function( term ) {
-		$.ajax({
-			url: app.artistsEndpoint( term ),
-			dataType: 'json',
-			success: function( data ) {
-				app.artists = data.response.artists;
-				var artistList = $('<ul class="artists-list" />');
-				$.each( app.artists, function( i, artist ) {
-					var artistItem = '<li>' + artist.name + '</li>';
-					artistList.append( artistItem );
-				});
-				$('#artists').html( artistList );
-			}
-		});
-	}
-};
+(function( win, $, undefined ) {
 
-$(document).ready(function() {
-	app.getTerms();
-	$(document).on('click', 'a', function( event ) {
-		event.preventDefault();
-		var term = $(this).attr('href');
-		app.getArtistsByTerm( term );
+  // App object
+  var app = {};
+  app.root = '/fuckery/echo-nest/';
+	app.apiKey = 'KWJSW0SIMG606Y0IN';
+  app.apiPrefix = 'http://developer.echonest.com/api/v4/';
+  app.termEndpoint = app.apiPrefix + 'artist/top_terms?api_key=' + app.apiKey + '&results=100';
+	app.artistEndpoint = function( term ) {
+		termQueryString = '&style=' + term;
+		return app.apiPrefix + 'artist/search?api_key=' + app.apiKey + termQueryString + '&results=20';
+	};
+
+	// Router object
+	var Router = Backbone.Router.extend({
+		initialize: function() {
+			this.terms = new TermCollection();
+			//this.artists = new ArtistCollection();
+      // Application layout
+      this.layout = new Backbone.Layout({
+        template: '#application',
+        views: {
+          '#terms': new TermListView({ collection: this.terms })
+        }
+      });
+      // Append the Layout and Render 
+      this.layout.$el.appendTo('#main');
+      this.layout.render();
+		},
+		routes: {
+			'' : 'index'
+		},
+		index: function() {
+			this.terms.fetch({ reset: true });
+		}
 	});
-	$(document).on('click', 'input[type=checkbox]', function( event ) {
-		var term = $(this).val();
-		console.log(term);
-		//app.getArtistsByTerm( term );
+
+	// Term model
+	var TermModel = Backbone.Model.extend({});
+
+	// Term collection
+	var TermCollection = Backbone.Collection.extend({
+		model: TermModel,
+		url: app.termEndpoint,
+		parse: function( response ) {
+			return response.response.terms;
+		}
 	});
-});
+
+	// Single term view
+	var TermView = Backbone.Layout.extend({
+		template: '#term',
+		tagName: 'li',
+		className: 'term',
+		serialize: function() {
+			return { term: this.model };
+		},
+		initialize: function() {
+			this.listenTo( this.model, 'change', this.render);
+		},
+		events: {
+			'change .term-input': 'updateArtists'
+		},
+		updateArtists: function( event ) {
+			// Update artists view
+		}
+
+	});
+
+	// Multi-term list view
+	var TermListView = Backbone.Layout.extend({
+		template: '#term-list',
+    beforeRender: function() {
+      this.collection.each(function( term ) {
+        this.insertView('ul.term-list', new TermView({
+          model: term
+        }));
+      }, this);
+    },
+    initialize: function() {
+      this.listenTo(this.collection, {
+        "reset": this.render
+      });
+    }
+	});
+
+  // Define Router and kick things off
+  app.router = new Router();
+  Backbone.history.start({ pushState: true, root: app.root });
+
+  win.app = app;
+
+})( window, jQuery );

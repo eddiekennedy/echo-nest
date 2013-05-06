@@ -24,11 +24,18 @@ ul {
 }
 li {
 	color: #aaa;
+	clear: both;
 }
 a {
 	color: #333;
 	text-decoration: none;
 }
 .terms-list li {
+	clear: both;
 	border-bottom: 1px solid #ccc;
+}
+.term-input {
+	float: left;
+}
+.term-label {
 }
