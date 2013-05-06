@@ -13,7 +13,7 @@
     <script id="application" type="text/template">
       <div class="application">
         <div id="terms" class="column dark"></div>
-        <div artists="artists" class="column stuck"></div>
+        <div id="artists" class="column stuck"></div>
       </div>
     </script>
     <!-- Single term template -->
@@ -25,6 +25,15 @@
     <script id="term-list" type="text/template">
         <h2>Terms</h2>
         <ul class="term-list"></ul>
+    </script>
+    <!-- Single artist template -->
+    <script id="artist" type="text/template">
+      <%= artist.get('name') %>
+    </script>
+    <!-- Artist list template -->
+    <script id="artist-list" type="text/template">
+        <h2>Artists</h2>
+        <ul class="artist-list"></ul>
     </script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
     <script src="assets/js/libs/lodash.min.js"></script>
