@@ -15,6 +15,11 @@ Bonus points:
  
 Please provide a link to the web app that we can evaluate
 
+Notes - 
+These two endpoints return the same results, regardless of genre-
+- http://developer.echonest.com/api/v4/artist/search?api_key=KWJSW0SIMG606Y0IN&style=rock&results=20&sort=artist_start_year-asc
+- http://developer.echonest.com/api/v4/artist/search?api_key=KWJSW0SIMG606Y0IN&style=rock&results=20&sort=artist_start_year-desc
+
 */
 
 (function( win, $, undefined ) {
@@ -24,31 +29,33 @@ Please provide a link to the web app that we can evaluate
   app.root = '/fuckery/echo-nest/';
   app.apiKey = 'KWJSW0SIMG606Y0IN';
   app.apiPrefix = 'http://developer.echonest.com/api/v4/';
+  app.defaultSortOrder = 'familiarity-asc';
   app.activeTerms = [];
 
   // Router object
   var Router = Backbone.Router.extend({
     initialize: function() {
-      this.terms = new TermCollection();
-      this.artists = new ArtistCollection();
+      // Set up collections
+      app.terms = new TermCollection();
+      app.artists = new ArtistCollection();
+      app.artists.sortOrder = app.defaultSortOrder;
       // Application layout
-      this.layout = new Backbone.Layout({
+      app.layout = new Backbone.Layout({
         template: '#application',
         views: {
-          '#terms': new TermListView({ collection: this.terms }),
-          '#artists': new ArtistListView({ collection: this.artists })
+          '#terms': new TermListView({ collection: app.terms }),
+          '#artists': new ArtistListView({ collection: app.artists })
         }
       });
       // Append the Layout and Render 
-      this.layout.$el.appendTo('#main');
-      this.layout.render();
+      app.layout.$el.appendTo('#main');
+      app.layout.render();
     },
     routes: {
       '' : 'index'
     },
     index: function() {
-      this.terms.fetch({ reset: true });
-      //this.artists.fetch({ reset: true });
+      app.terms.fetch({ reset: true });
     }
   });
 
@@ -89,21 +96,20 @@ Please provide a link to the web app that we can evaluate
       var term = this.model.get('name');
       // Determine if term is in app.activeTerms
       var termIndex = app.activeTerms.indexOf( term );
+      // Either remove or add term
       if ( termIndex > -1 ) {
-        // Remove term
         app.activeTerms.splice( termIndex, 1 );
       } else {
-        // Add term
         app.activeTerms.push( term );
       }
-      app.router.artists.url( app.activeTerms );
+      app.artists.url( app.activeTerms, app.sortOrder );
+      // Fetch new artists if there are still terms in app.activeTerms
       if ( app.activeTerms.length ){
-        app.router.artists.fetch({ reset: true });
+        app.artists.fetch({ reset: true });
       } else {
         app.router.artists.reset();
       }
     }
-
   });
 
   // Multi-term list view
@@ -140,7 +146,7 @@ Please provide a link to the web app that we can evaluate
       $.each( app.activeTerms, function( i, term ) {
         termQueryString += '&style=' + app.activeTerms[i];
       });
-      return app.apiPrefix + 'artist/search?api_key=' + app.apiKey + termQueryString + '&results=20';
+      return app.apiPrefix + 'artist/search?api_key=' + app.apiKey + termQueryString + '&results=20&sort=' + this.sortOrder;
     },
     parse: function( response ) {
       return response.response.artists;
@@ -169,10 +175,25 @@ Please provide a link to the web app that we can evaluate
         }));
       }, this);
     },
+    afterRender: function() {
+      this.$el.find("#sort-order").val(this.collection.sortOrder);
+    },
     initialize: function() {
       this.listenTo(this.collection, {
         "reset": this.render
       });
+    },
+    events: {
+      'change #sort-order': 'sortArtists'
+    },
+    sortArtists: function( event ) {
+      // Get and set the new sort order
+      var newSortOrder = this.$el.find("#sort-order").val();
+      this.collection.sortOrder = newSortOrder;
+      // Re-fetch collection if needed
+      if ( this.collection.length ) {
+        this.collection.fetch({ reset: true });
+      }
     }
   });
 

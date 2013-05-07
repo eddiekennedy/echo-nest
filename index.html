@@ -29,8 +29,15 @@
     <!-- Artist list template -->
     <script id="artist-list" type="text/template">
         <h2>Artists</h2>
-        <div class="sort">Order by: Name / Hotness</div>
-        <div class="order">Oldest First / Newest First / Familiar First</div>
+        <form action="#">
+          <label for="sort-order">Sort By:</label>
+          <select name="sort-order" id="sort-order">
+            <option value="familiarity-asc">Familiarity</option>
+            <option value="hotttnesss-asc">Hotttness</option>
+            <option value="artist_start_year-asc">Oldest First</option>
+            <option value="artist_start_year-desc">Newest First</option>
+          </select>
+        </form>
         <ul class="artist-list"></ul>
     </script>
     <!-- Single artist template -->
