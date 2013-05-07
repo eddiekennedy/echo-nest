@@ -52,7 +52,8 @@ These two endpoints return the same results, regardless of genre-
       app.layout.render();
     },
     routes: {
-      '' : 'index'
+      ''                : 'index',
+      'terms/:termList' : 'getArtists'
     },
     index: function() {
       app.terms.fetch({ reset: true });
@@ -107,7 +108,7 @@ These two endpoints return the same results, regardless of genre-
       if ( app.activeTerms.length ){
         app.artists.fetch({ reset: true });
       } else {
-        app.router.artists.reset();
+        app.artists.reset();
       }
     }
   });

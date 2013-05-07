@@ -13,23 +13,26 @@
     <script id="application" type="text/template">
       <div class="application">
         <div id="terms" class="column dark"></div>
-        <div id="artists" class="column stuck"></div>
+        <div id="artists" class="column"></div>
       </div>
     </script>
     <!-- Term list template -->
     <script id="term-list" type="text/template">
-        <h2>Terms</h2>
+        <div class="header">
+          <h2 class="">Terms</h2>
+        </div>
         <ul class="term-list"></ul>
     </script>
     <!-- Single term template -->
     <script id="term" type="text/template">
       <label for="<%= term.get('name') %>" class="term-label"><%= term.get('name') %></label>
-      <input type="checkbox" value="<%= term.get('name') %>" id="<%= term.get('name') %>" class="term-input" />
+      <input type="checkbox" value="<%= term.get('name') %>" id="<%= term.get('name') %>" class="term-input pull-left" />
     </script>
     <!-- Artist list template -->
     <script id="artist-list" type="text/template">
-        <h2>Artists</h2>
-        <form action="#">
+      <div class="header artists">
+        <h2 class="pull-left">Artists</h2>
+        <form action="#" class="pull-right sort-form">
           <label for="sort-order">Sort By:</label>
           <select name="sort-order" id="sort-order">
             <option value="familiarity-asc">Familiarity</option>
@@ -38,7 +41,8 @@
             <option value="artist_start_year-desc">Newest First</option>
           </select>
         </form>
-        <ul class="artist-list"></ul>
+      </div>
+      <ul class="artist-list"></ul>
     </script>
     <!-- Single artist template -->
     <script id="artist" type="text/template">

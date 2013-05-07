@@ -1,41 +1,85 @@
+/* Elements */
 body {
-	font-family: Gill Sans, helvetica, arial;
-	font-size: .8em;
+	font-family: verdana, arial;
+	font-size: 1em;
 	margin: 0;
 	padding: 0;
+	color: #444;
 }
-.column {
-	width: 50%;
-	float: left;
-}
-.dark {
-	background: #ddd;
-	border-right: 1px inset #ccc;
-}
-.stuck {
-	position: fixed;
-	margin-left: 50%;
+h2 {
+	margin: 0;
+	font-weight: 100;
 }
 ul {
-	color: #eee;
 	list-style: none;
 	padding: 0;
+	padding-top: 3em;
 	margin: 0;
 }
 li {
-	color: #aaa;
+	clear: both;
+	position: relative;
+	border-bottom: 1px solid #ddd;
+	padding: .8em 0 .8em 4%;
+	background: #eee;
+}
+li:last-child {
+	border-bottom: 0;
+}
+.term-list li {
+	padding: 0;
+	background: #fff;
 	clear: both;
 }
-a {
-	color: #333;
-	text-decoration: none;
+.sort-form {
+	font-size: .6em;
+	margin-top: .5em;
 }
-.terms-list li {
-	clear: both;
-	border-bottom: 1px solid #ccc;
+/* Layout */
+.column {
+	width: 50%;
+	min-height: 600px;
+	float: left;
+	xbox-shadow: 1px 0 0 #666;
+}
+.header {
+	height: 2em;
+	padding: .5em 2%;
+	border-bottom: 1px solid #111;
+	position: fixed;
+	width: 46%;
+	background: #222;
+	z-index: 100;
+	color: #fff;
+}
+.header.artists {
+	background-color: #333;
 }
 .term-input {
-	float: left;
+	position: absolute;
+	margin-top: 1.5em;
+	left: 2%;
 }
 .term-label {
+	display: block;
+	float: left;
+	width: 92%;
+	padding: .8em 0 .8em 8%;
+}
+.term-label:hover {
+	cursor: pointer;
+	background: #eee;
+}
+.pull-left {
+	float: left;
+}
+.pull-right {
+	float: right;
+}
+/* Clearfixing */
+.header:after,
+li:after {
+	display: block;
+	content: '';
+	clear: both;
 }
