@@ -16,19 +16,15 @@
         <div id="artists" class="column stuck"></div>
       </div>
     </script>
-    <!-- Single term template -->
-    <script id="term" type="text/template">
-      <label for="<%= term.get('name') %>" class="term-label"><%= term.get('name') %></label>
-      <input type="checkbox" value="<%= term.get('name') %>" id="<%= term.get('name') %>" class="term-input" />
-    </script>
     <!-- Term list template -->
     <script id="term-list" type="text/template">
         <h2>Terms</h2>
         <ul class="term-list"></ul>
     </script>
-    <!-- Single artist template -->
-    <script id="artist" type="text/template">
-      <%= artist.get('name') %>
+    <!-- Single term template -->
+    <script id="term" type="text/template">
+      <label for="<%= term.get('name') %>" class="term-label"><%= term.get('name') %></label>
+      <input type="checkbox" value="<%= term.get('name') %>" id="<%= term.get('name') %>" class="term-input" />
     </script>
     <!-- Artist list template -->
     <script id="artist-list" type="text/template">
@@ -37,6 +33,10 @@
         <div class="order">Oldest First / Newest First / Familiar First</div>
         <ul class="artist-list"></ul>
     </script>
+    <!-- Single artist template -->
+    <script id="artist" type="text/template">
+      <%= artist.get('name') %>
+    </script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
     <script src="assets/js/libs/lodash.min.js"></script>
     <script src="assets/js/libs/backbone.js"></script>
@@ -44,4 +44,3 @@
     <script src="assets/js/main.js"></script>
   </body>
 </html>
-
