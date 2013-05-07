@@ -40,7 +40,7 @@ li:last-child {
 	width: 50%;
 	min-height: 600px;
 	float: left;
-	xbox-shadow: 1px 0 0 #666;
+	box-shadow: 1px 0 0 #ddd;
 }
 .header {
 	height: 2em;
