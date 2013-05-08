@@ -57,6 +57,16 @@ These two endpoints return the same results, regardless of genre-
     },
     index: function() {
       app.terms.fetch({ reset: true });
+      if ( app.artists.length ) {
+        app.artists.reset();
+      }
+    },
+    getArtists: function( termList ) {
+      app.activeTerms = termList.split('+');
+      app.artists.fetch({ reset: true });
+    },
+    go: function() {
+      return this.navigate( _.toArray(arguments).join("/"), { trigger: true } );
     }
   });
 
@@ -90,9 +100,9 @@ These two endpoints return the same results, regardless of genre-
       this.listenTo( this.model, 'change', this.render);
     },
     events: {
-      'change .term-input': 'updateArtists'
+      'change .term-input': 'updateTerms'
     },
-    updateArtists: function( event ) {
+    updateTerms: function( event ) {
       // Get the term
       var term = this.model.get('name');
       // Determine if term is in app.activeTerms
@@ -103,13 +113,31 @@ These two endpoints return the same results, regardless of genre-
       } else {
         app.activeTerms.push( term );
       }
-      app.artists.url( app.activeTerms, app.sortOrder );
-      // Fetch new artists if there are still terms in app.activeTerms
       if ( app.activeTerms.length ){
-        app.artists.fetch({ reset: true });
+        // Turn active terms into a string
+        var artiveTermUrl = '/terms/' + encodeURI( app.activeTerms.join('+') );
+        // Redirect the router
+        app.router.go( artiveTermUrl );
       } else {
-        app.artists.reset();
+        // Redirect the router
+        app.router.go( '/' );
       }
+      //app.router.go();
+      // // Determine if term is in app.activeTerms
+      // var termIndex = app.activeTerms.indexOf( term );
+      // // Either remove or add term
+      // if ( termIndex > -1 ) {
+      //   app.activeTerms.splice( termIndex, 1 );
+      // } else {
+      //   app.activeTerms.push( term );
+      // }
+      // app.artists.url( app.activeTerms, app.sortOrder );
+      // // Fetch new artists if there are still terms in app.activeTerms
+      // if ( app.activeTerms.length ){
+      //   app.artists.fetch({ reset: true });
+      // } else {
+      //   app.artists.reset();
+      // }
     }
   });
 
@@ -142,7 +170,7 @@ These two endpoints return the same results, regardless of genre-
   // Artist collection
   var ArtistCollection = Backbone.Collection.extend({
     model: ArtistModel,
-    url: function( term ) {
+    url: function() {
       var termQueryString = '';
       $.each( app.activeTerms, function( i, term ) {
         termQueryString += '&style=' + app.activeTerms[i];
