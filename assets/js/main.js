@@ -116,8 +116,7 @@ TODO:
       'change .term-input': 'updateTerms'
     },
     updateTerms: function( event ) {
-      event.preventDefault();
-      // Add active class for styles
+      // Toggle active class for styles
       this.$el.toggleClass('active');
       // Get the term
       var term = this.model.get('name');
