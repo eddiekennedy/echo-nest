@@ -26,7 +26,7 @@ These two endpoints return the same results, regardless of genre-
 
   // App object
   var app = {};
-  app.root = '/fuckery/echo-nest/';
+  app.root = win.location.hostname == 'localhost' ? '/fuckery/echo-nest/' : '/echo-nest/';
   app.apiKey = 'KWJSW0SIMG606Y0IN';
   app.apiPrefix = 'http://developer.echonest.com/api/v4/';
   app.defaultSortOrder = 'familiarity-asc';
