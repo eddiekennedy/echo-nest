@@ -15,10 +15,19 @@ Bonus points:
  
 Please provide a link to the web app that we can evaluate
 
-Notes - 
-These two endpoints return the same results, regardless of genre-
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+NOTES / Eddie Kennedy - 
+
+Wasn't sure if Hotttness and Artist Year were meant to be handled with the same UI element, but it seemed to make sense.
+
+These two endpoints were returning the same results, regardless of genre-
 - http://developer.echonest.com/api/v4/artist/search?api_key=KWJSW0SIMG606Y0IN&style=rock&results=20&sort=artist_start_year-asc
 - http://developer.echonest.com/api/v4/artist/search?api_key=KWJSW0SIMG606Y0IN&style=rock&results=20&sort=artist_start_year-desc
+
+TODO:
+- Add .htaccess so that refreshing the browser works
+- Figure out a better scrolling solution
 
 */
 
@@ -122,22 +131,6 @@ These two endpoints return the same results, regardless of genre-
         // Redirect the router
         app.router.go( '/' );
       }
-      //app.router.go();
-      // // Determine if term is in app.activeTerms
-      // var termIndex = app.activeTerms.indexOf( term );
-      // // Either remove or add term
-      // if ( termIndex > -1 ) {
-      //   app.activeTerms.splice( termIndex, 1 );
-      // } else {
-      //   app.activeTerms.push( term );
-      // }
-      // app.artists.url( app.activeTerms, app.sortOrder );
-      // // Fetch new artists if there are still terms in app.activeTerms
-      // if ( app.activeTerms.length ){
-      //   app.artists.fetch({ reset: true });
-      // } else {
-      //   app.artists.reset();
-      // }
     }
   });
 
