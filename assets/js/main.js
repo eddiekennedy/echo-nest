@@ -26,6 +26,8 @@ These two endpoints were returning the same results, regardless of genre-
 - http://developer.echonest.com/api/v4/artist/search?api_key=KWJSW0SIMG606Y0IN&style=rock&results=20&sort=artist_start_year-desc
 
 TODO:
+
+- Checkbox should uncheck/check with back/forward browser buttons
 - Minify and concatenate JS and CSS files
 - Add .htaccess so that refreshing the browser works
 - Figure out a better scrolling solution
@@ -114,6 +116,9 @@ TODO:
       'change .term-input': 'updateTerms'
     },
     updateTerms: function( event ) {
+      event.preventDefault();
+      // Add active class for styles
+      this.$el.toggleClass('active');
       // Get the term
       var term = this.model.get('name');
       // Determine if term is in app.activeTerms

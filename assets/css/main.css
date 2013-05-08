@@ -31,6 +31,9 @@ li:last-child {
 	background: #fff;
 	clear: both;
 }
+.term-list li.active {
+	background: #eee;
+}
 .sort-form {
 	font-size: .6em;
 	margin-top: .5em;
@@ -68,7 +71,7 @@ li:last-child {
 }
 .term-label:hover {
 	cursor: pointer;
-	background: #eee;
+	background: rgba(0, 0, 0, .05);
 }
 .pull-left {
 	float: left;
