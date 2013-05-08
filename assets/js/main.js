@@ -26,8 +26,10 @@ These two endpoints were returning the same results, regardless of genre-
 - http://developer.echonest.com/api/v4/artist/search?api_key=KWJSW0SIMG606Y0IN&style=rock&results=20&sort=artist_start_year-desc
 
 TODO:
+- Minify and concatenate JS and CSS files
 - Add .htaccess so that refreshing the browser works
 - Figure out a better scrolling solution
+- Aesthetic cleanup
 
 */
 
